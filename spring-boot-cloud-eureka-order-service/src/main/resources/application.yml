@@ -8,9 +8,9 @@ server:
   port: 8282
 eureka:
   instance:
-    hostname: localhost
+    hostname: eurekaserver
     serviceUrl:
-      defaultZone : http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
 security:
   oauth2:
