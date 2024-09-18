@@ -1,16 +1,24 @@
 spring:
   application:
-    name: authentication-service
-  security:
-    user:
-      name: subhash
-      password: subhash
-server:
-  port: 8484
+    name: order-service
+  zipkin:
+    base-url: http://localhost:9411/
+
+server: 8080
 eureka:
   instance:
     hostname: eurekaserver
-  client:
-    fetchRegistry: true
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://authentication-service/oauth/check_token
+    client:
+      client-id: javadeveloperzone
+      client-secret: secret
+
+feign:
+  circuitbreaker:
+    enabled: true
