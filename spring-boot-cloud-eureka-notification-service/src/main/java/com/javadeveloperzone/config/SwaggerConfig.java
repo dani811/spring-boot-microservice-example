@@ -36,7 +36,6 @@ public class SwaggerConfig {
                 .apiInfo(apiEndPointsInfo());
     }
 
-
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("Spring microservice API")
                 .description("Spring microservice API")
@@ -54,7 +53,8 @@ public class SwaggerConfig {
         authorizationScopeList.add(new AuthorizationScope("write", "access all"));
 
         List<GrantType> grantTypes = new ArrayList();
-        GrantType passwordCredentialsGrant = new ResourceOwnerPasswordCredentialsGrant("http://localhost:8080/oauth/token");
+        GrantType passwordCredentialsGrant = new ResourceOwnerPasswordCredentialsGrant(
+                "http://authentication-service:8080/oauth/token");
         grantTypes.add(passwordCredentialsGrant);
 
         return new OAuth("oauth2", authorizationScopeList, grantTypes);
@@ -77,8 +77,8 @@ public class SwaggerConfig {
 
     @Bean
     public SecurityConfiguration security() {
-        return new SecurityConfiguration
-                ("javadeveloperzone", "secret", "", "", "", ApiKeyVehicle.HEADER, HttpHeaders.AUTHORIZATION,"");
+        return new SecurityConfiguration("javadeveloperzone", "secret", "", "", "", ApiKeyVehicle.HEADER,
+                HttpHeaders.AUTHORIZATION, "");
     }
 
     /**

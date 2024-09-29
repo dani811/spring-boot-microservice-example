@@ -1,57 +1,62 @@
 version: "3"
 services:
   eurekaserver:
-    build: .
+    build:
+      context: ./spring-boot-cloud-eureka-server # Contexto del proyecto de Eureka
+      dockerfile: ../Dockerfile # Dockerfile en el directorio padre
     ports:
       - "8761:8080"
-    pull_policy: always
-    networks:
-      - eureka_network
-
+    environment:
+      - EUREKA_INSTANCE_HOSTNAME=192.168.68.105
+      - EUREKA_INSTANCE_PORT=8080
   apigateway:
-    build: .
+    build:
+      context: ./spring-boot-cloud-api-gateway-routing # Contexto del proyecto de Zuul (API Gateway)
+      dockerfile: ../Dockerfile # Dockerfile en el directorio padre
     ports:
       - "8080:8080"
     depends_on:
       - eurekaserver
-    networks:
-      - eureka_network
 
-  userservice:
-    build: .
-    ports:
-      - "8181:8080"
-    depends_on:
-      - apigateway
-    networks:
-      - eureka_network
+  # userservice:
+  #   build:
+  #     context: ./spring-boot-cloud-eureka-user-service # Contexto del proyecto de user-service
+  #     dockerfile: ../Dockerfile # Dockerfile en el directorio padre
+  #   ports:
+  #     - "8181:8080"
+  #   depends_on:
+  #     - apigateway
 
   orderservice:
-    build: .
+    build:
+      context: ./spring-boot-cloud-eureka-order-service # Contexto del proyecto de order-service
+      dockerfile: ../Dockerfile # Dockerfile en el directorio padre
     ports:
       - "8282:8080"
     depends_on:
       - eurekaserver
-    networks:
-      - eureka_network
 
-  notificationservice:
-    build: .
-    ports:
-      - "8383:8080"
-    depends_on:
-      - eurekaserver
-    networks:
-      - eureka_network
+  # notificationservice:
+  #   build:
+  #     context: ./spring-boot-cloud-eureka-notification-service # Contexto del proyecto de notification-service
+  #     dockerfile: ../Dockerfile # Dockerfile en el directorio padre
+  #   ports:
+  #     - "8383:8080"
+  #   depends_on:
+  #     - eurekaserver
 
-  authenticationservice:
-    build: .
+  # authenticationservice:
+  #   build:
+  #     context: ./spring-boot-cloud-authentication-service # Contexto del proyecto de authentication-service
+  #     dockerfile: ../Dockerfile # Dockerfile en el directorio padre
+  #   ports:
+  #     - "8484:8080"
+  #   depends_on:
+  #     - eurekaserver
+  zipkin:
+    image: openzipkin/zipkin
     ports:
-      - "8484:8080"
-    depends_on:
-      - eurekaserver
-    networks:
-      - eureka_network
+      - "9411:9411" # Zipkin UI estará disponible en el puerto 9411
 
 networks:
   eureka_network:

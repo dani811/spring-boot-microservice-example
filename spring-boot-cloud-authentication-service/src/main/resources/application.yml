@@ -2,7 +2,7 @@ spring:
   application:
     name: order-service
   zipkin:
-    base-url: http://localhost:9411/
+    base-url: http://zipkin:9411/
 
 server: 8080
 eureka:

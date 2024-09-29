@@ -4,7 +4,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
-
   server:
     eviction-interval-timer-in-ms: 1000
 
@@ -19,14 +18,23 @@ spring:
           predicates:
             - Path=/user/**
         - id: order-service
-          uri: lb://ORDER-SERVICE
+          uri: lb://ORDERSERVICE
           predicates:
             - Path=/order/**
         - id: authentication-service
-          uri: lb://authentication-service
+          uri: lb://AUTHENTICATIONSERVICE
           predicates:
             - Path=/oauth/**
         - id: notification-service
-          uri: lb://notification-service
+          uri: lb://NOTIFICATION-SERVICE
           predicates:
             - Path=/notification/**
+        - id: swagger-ui
+          uri: lb://SWAGGER-HUB-SERVICE
+          predicates:
+            - Path=/swagger/**
+  zipkin:
+    base-url: http://zipkin:9411
+  sleuth:
+    sampler:
+      probability: 1.0

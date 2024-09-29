@@ -2,12 +2,12 @@ spring:
   application:
     name: user-service
   zipkin:
-    base-url: http://localhost:9411/
+    base-url: http://zipkin:9411/
 
 server: 8080
 eureka:
   instance:
-    hostname: eurekaserver
+    hostname: eureka-server
   client:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
